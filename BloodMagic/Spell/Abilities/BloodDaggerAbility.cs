@@ -29,6 +29,9 @@ namespace BloodMagic.Spell.Abilities
 
                         dagger.Throw(1f, Item.FlyDetection.Forced);
 
+                        BloodDagger bd = dagger.gameObject.AddComponent<BloodDagger>();
+                        bd.Initialize(dagger);
+
                     }, bloodSpell.spellCaster.magic.position, Quaternion.Euler(bloodSpell.spellCaster.magic.forward), null, false, null);
                     return true;
                 }

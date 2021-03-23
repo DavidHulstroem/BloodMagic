@@ -47,7 +47,7 @@ namespace BloodMagic.Spell.Abilities
                         //Moving in the right direction
                         if (Vector3.Dot(-bloodSpell.spellCaster.magic.right, projection.normalized) > saveData.gesturePrescision)
                         {
-                            if (projection.magnitude > 1.5f)
+                            if (projection.magnitude > 1.0f)
                             {
                                 SpellAbilityManager.SpendHealth(15);
                                 return true;
@@ -67,7 +67,7 @@ namespace BloodMagic.Spell.Abilities
                         //Moving in the right direction
                         if (Vector3.Dot(bloodSpell.spellCaster.magic.right, projection.normalized) > saveData.gesturePrescision)
                         {
-                            if (projection.magnitude > 1.5f)
+                            if (projection.magnitude > 1.0f)
                             {
                                 SpellAbilityManager.SpendHealth(15);
                                 return true;

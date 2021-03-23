@@ -23,6 +23,8 @@ namespace BloodMagic
         public float drainPower { get; set; } = 2f;
 
 
+        public float wavePushStrenght { get; set; } = 20f;
+
 
         public float xpMultiplier { get; set; } = 1;
 

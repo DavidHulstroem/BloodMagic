@@ -102,12 +102,14 @@
     <Compile Include="Quest\Rewards\LightXP.cs" />
     <Compile Include="Quest\Rewards\Reward.cs" />
     <Compile Include="SaveData.cs" />
+    <Compile Include="Spell\Abilities\BloodWave.cs" />
     <Compile Include="Spell\Abilities\BloodBow.cs" />
     <Compile Include="Spell\Abilities\BloodSword.cs" />
     <Compile Include="Spell\Abilities\BloodDrain.cs" />
     <Compile Include="Spell\Abilities\BloodDaggerAbility.cs" />
     <Compile Include="Spell\Abilities\BloodBulletAbility.cs" />
     <Compile Include="Spell\Abilities\SpellAbility.cs" />
+    <Compile Include="Spell\BloodDagger.cs" />
     <Compile Include="Spell\BloodBullet.cs" />
     <Compile Include="Spell\BloodSpell.cs" />
     <Compile Include="UI\AbilityInfo.cs" />

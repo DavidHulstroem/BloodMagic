@@ -43,6 +43,5 @@ namespace BloodMagic.Spell.Abilities
             }
             return false;
         }
-
     }
 }

@@ -42,7 +42,7 @@ namespace BloodMagic.Spell
             creature.OnDamageEvent += Creature_OnDamageEvent;
         }
 
-        private float lastDamageTime;
+        public static float lastDamageTime;
         private void Creature_OnDamageEvent(CollisionInstance collisionInstance)
         {
             lastDamageTime = Time.time;
@@ -72,6 +72,7 @@ namespace BloodMagic.Spell
 
         bool swordSpawned;
         bool bowSpawned;
+        bool waveSpawned;
 
 
         public override void UpdateCaster()
@@ -94,7 +95,7 @@ namespace BloodMagic.Spell
                     Creature spellcastCreature = spellCaster.ragdollHand.creature;
                     //Not been damaged for 5 seconds
                     if (spellcastCreature.currentHealth < spellcastCreature.maxHealth)
-                        spellcastCreature.Heal(BookUIHandler.saveData.drainPower * Time.deltaTime, spellcastCreature);
+                        spellcastCreature.Heal(BookUIHandler.saveData.drainPower * 0.2f * Time.deltaTime, spellcastCreature);
                 }
             }
 
@@ -102,11 +103,13 @@ namespace BloodMagic.Spell
 
             if (SkillHandler.IsSkillUnlocked("Choke Drain"))
             {
+                Debug.Log("Choke unlocked");
                 Handle grabbedHandle = spellCaster.ragdollHand.grabbedHandle;
-                if (grabbedHandle is HandleRagdoll && (grabbedHandle as HandleRagdoll).ragdollPart.type == RagdollPart.Type.Neck)
+                if (grabbedHandle is HandleRagdoll)
                 {
+                    Debug.Log("Handle is handle ragdoll");
                     //Grabbed handle is a neck of a creature
-                    if (PlayerControl.GetHand(spellCaster.ragdollHand.side).usePressed)
+                    if (PlayerControl.GetHand(spellCaster.ragdollHand.side).useAxis > 0)
                     {
                         //Player is pressing the use button
                         Creature grabbedCreature = (grabbedHandle as HandleRagdoll).ragdollPart.ragdoll.creature;
@@ -117,6 +120,7 @@ namespace BloodMagic.Spell
                             CollisionInstance collisionInstance = new CollisionInstance(new DamageStruct(DamageType.Energy, health));
                             grabbedCreature.Damage(collisionInstance);
 
+                            lastDamageTime = Time.time;
                             BloodDrain.DrainHealth(health, this, grabbedCreature);
                         }
                     }
@@ -141,6 +145,7 @@ namespace BloodMagic.Spell
                     if (BloodSword.TryToActivate(this, Vector3.zero, BookUIHandler.saveData))
                     {
                         spellCaster.StartCoroutine(SpawnSword());
+                        lastDamageTime = Time.time;
                     }
                 }
 
@@ -149,6 +154,17 @@ namespace BloodMagic.Spell
                     if (BloodBow.TryToActivate(this,Vector3.zero, BookUIHandler.saveData))
                     {
                         spellCaster.StartCoroutine(SpawnBow());
+                        lastDamageTime = Time.time;
+                    }
+                }
+
+                //Check wave
+                if (!BloodWave.waveCreated && SkillHandler.IsSkillUnlocked("Blood Wave"))
+                {
+                    if (BloodWave.TryToActivate(this, Vector3.zero, BookUIHandler.saveData))
+                    {
+                        spellCaster.StartCoroutine(SpawnBloodWave());
+                        lastDamageTime = Time.time;
                     }
                 }
             } else
@@ -156,6 +172,36 @@ namespace BloodMagic.Spell
                 bloodDrainEffect.Stop();
             }
 
+        }
+
+        IEnumerator SpawnBloodWave()
+        {
+            EffectInstance effectInstance = Catalog.GetData<EffectData>("BloodWave").Spawn(Player.currentCreature.locomotion.transform.position + Player.currentCreature.transform.forward * 2, Quaternion.LookRotation(Player.currentCreature.transform.forward));
+            float startTime = Time.time;
+            GameObject wave = effectInstance.effects[0].gameObject;
+
+            while (Time.time - startTime < 2)
+            {
+
+                wave.transform.position += (wave.transform.forward * 2 * Time.deltaTime);
+
+                foreach (Creature creature in Creature.list)
+                {
+                    if (creature != Player.currentCreature)
+                    {
+                        if (Vector3.Distance(wave.transform.position, creature.transform.position) < 3)
+                        {
+                            creature.ragdoll.SetState(Ragdoll.State.Destabilized);
+                            creature.ragdoll.GetPart(RagdollPart.Type.Torso).rb.AddForce((wave.transform.forward + Vector3.up) * BookUIHandler.saveData.wavePushStrenght, ForceMode.Impulse);
+                        }
+                    }
+                }
+
+                yield return new WaitForEndOfFrame();
+            }
+
+            BloodWave.waveCreated = false;
+            effectInstance.Despawn();
         }
 
         IEnumerator SpawnBow()

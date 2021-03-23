@@ -15,7 +15,8 @@ namespace BloodMagic.Spell.Abilities
             if (!SpellAbilityManager.HasEnoughHealth(10))
                 return false;
 
-            if (Vector3.Dot(Vector3.up, bloodSpell.spellCaster.magic.right) > saveData.gesturePrescision) //thumb up
+
+            if (Math.Abs(Vector3.Dot(Vector3.up, bloodSpell.spellCaster.magic.right)) > saveData.gesturePrescision) //thumb up
             {
 
                 //This is the hand to check

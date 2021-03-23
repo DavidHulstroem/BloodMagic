@@ -16,8 +16,6 @@ namespace BloodMagic.Spell.Abilities
             {
                 return true;
             }
-
-            PostProcessManager.DoTimedEffect(new Color(1, 0.1f, 0.1f), PostProcessManager.TimedEffect.Flash, 0.5f);
             return false;
         }
 

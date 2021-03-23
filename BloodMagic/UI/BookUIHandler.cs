@@ -86,7 +86,7 @@ namespace BloodMagic.UI
 
             SetupAllQuests();
 
-
+           
             menu.GetCustomReference("DebugNewQuest").GetComponent<Button>().onClick.AddListener(delegate
             {
                 saveData.quest1 = null;
@@ -99,6 +99,7 @@ namespace BloodMagic.UI
 
                 SetupAllQuests();
             });
+            menu.GetCustomReference("DebugNewQuest").gameObject.SetActive(false);
 
             UpdateAllStats();
 
@@ -115,9 +116,9 @@ namespace BloodMagic.UI
 
         public void UpdateQuestProgress()
         {
-            questUI1.progressText.text = questUI1.quest.mainCondition.progress.ToString();
-            questUI2.progressText.text = questUI2.quest.mainCondition.progress.ToString();
-            questUI3.progressText.text = questUI3.quest.mainCondition.progress.ToString();
+            questUI1.progressText.text = $"{Math.Round(questUI1.quest.mainCondition.progress, 1)} / {questUI1.quest.mainCondition.progessGoal}";
+            questUI2.progressText.text = $"{Math.Round(questUI2.quest.mainCondition.progress, 1)} / {questUI2.quest.mainCondition.progessGoal}";
+            questUI3.progressText.text = $"{Math.Round(questUI3.quest.mainCondition.progress, 1)} / {questUI3.quest.mainCondition.progessGoal}";
         }
 
         private void SetupAllQuests()
@@ -348,6 +349,8 @@ namespace BloodMagic.UI
             saveData.pathChosen = PathEnum.Light;
             saveData.unlockedSkills.Add("LightPath");
             saveData.unlockedSkills.Add("DarkPath");
+            saveData.unlockedSkills.Add("LightSideChosen");
+            saveData.unlockedSkills.Add("LightSide");
 
             ShowDefaultPages();
             SaveJson();
@@ -358,6 +361,8 @@ namespace BloodMagic.UI
             saveData.pathChosen = PathEnum.Dark;
             saveData.unlockedSkills.Add("DarkPath");
             saveData.unlockedSkills.Add("LightPath");
+            saveData.unlockedSkills.Add("DarkSideChosen");
+            saveData.unlockedSkills.Add("DarkSide");
 
             ShowDefaultPages();
             SaveJson();

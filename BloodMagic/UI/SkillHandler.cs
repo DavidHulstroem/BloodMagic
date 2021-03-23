@@ -12,6 +12,9 @@ namespace BloodMagic.UI
     {
         public static SkillData ShowSkill(this SkillData skillData)
         {
+            if (skillData.cost == -1)
+                return skillData;
+
             skillData.gameObject.SetActive(true);
             Debug.Log($"ShowSkill :: Does save data contain {skillData.skillName} = {BookUIHandler.saveData.unlockedSkills.Contains(skillData.skillName)}");
             if (BookUIHandler.saveData.unlockedSkills.Contains(skillData.skillName))
