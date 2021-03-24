@@ -16,7 +16,7 @@ namespace BloodMagic
         public float xp { get; set; }
         public int level { get; set; }
 
-        public float bulletSpeed { get; set; } = 15;
+        public float bulletSpeed { get; set; } = 9;
 
         public float gesturePrescision { get; set; } = 0.7f;
         public float drainDistance { get; set; } = 5;
@@ -26,7 +26,7 @@ namespace BloodMagic
         public float wavePushStrenght { get; set; } = 20f;
 
 
-        public float xpMultiplier { get; set; } = 1.5f;
+        public float xpMultiplier { get; set; } = 0.4f;
 
         public QuestInfo quest1 { get; set; }
         public QuestInfo quest2 { get; set; }

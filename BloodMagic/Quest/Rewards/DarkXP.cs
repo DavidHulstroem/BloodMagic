@@ -15,7 +15,7 @@ namespace BloodMagic.Quest.Rewards
             base.CreateReward(id, totalCost, random);
 
 
-            float rng = UnityEngine.Mathf.Clamp((float)random.NextDouble(), 0.25f, 1);
+            float rng = UnityEngine.Mathf.Lerp(0.5f, 1, (float)random.NextDouble());
 
             int total = (int)Math.Round(totalCost + rng * 3 * BookUIHandler.saveData.xpMultiplier, 0);
 

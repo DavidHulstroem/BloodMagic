@@ -15,8 +15,10 @@ namespace BloodMagic.Quest.Rewards
         {
             base.CreateReward(id, totalCost, random);
 
-            float rng = UnityEngine.Mathf.Clamp((float)random.NextDouble(), 0.25f, 1);
-            float total = rng * totalCost * 0.5f;
+            float rng = UnityEngine.Mathf.Lerp(0.5f, 1, (float)random.NextDouble());
+
+            float total = rng * totalCost * 0.25f;
+
             power = (float)Math.Round((total), 1);
 
 #if UNITY_ENGINE_AVAILABLE
