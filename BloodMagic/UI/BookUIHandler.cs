@@ -108,17 +108,23 @@ namespace BloodMagic.UI
 
         private void OnAnyMainConditionCompleted(MainCondition main)
         {
-            UpdateQuestProgress();
+            UpdateQuestProgress(questUI1);
+            UpdateQuestProgress(questUI2);
+            UpdateQuestProgress(questUI3);
             //UpdateAllQuestDisplays(); ///Todo, make it not update all the displays only progress
 
             SaveJson();
         }
 
-        public void UpdateQuestProgress()
+        public void UpdateQuestProgress(QuestUIComponets p_questUIC)
         {
-            questUI1.progressText.text = $"{Math.Round(questUI1.quest.mainCondition.progress, 1)} / {questUI1.quest.mainCondition.progessGoal}";
-            questUI2.progressText.text = $"{Math.Round(questUI2.quest.mainCondition.progress, 1)} / {questUI2.quest.mainCondition.progessGoal}";
-            questUI3.progressText.text = $"{Math.Round(questUI3.quest.mainCondition.progress, 1)} / {questUI3.quest.mainCondition.progessGoal}";
+            if (p_questUIC.quest.mainCondition.progress >= p_questUIC.quest.mainCondition.progessGoal)
+            {
+                p_questUIC.ShowQuestData(p_questUIC.quest);
+                return;
+            }
+
+            p_questUIC.progressText.text = $"{Math.Round(p_questUIC.quest.mainCondition.progress, 1)} / {p_questUIC.quest.mainCondition.progessGoal}";
         }
 
         private void SetupAllQuests()
@@ -385,6 +391,7 @@ namespace BloodMagic.UI
 
             if (saveData != null)
             {
+                Directory.CreateDirectory(Path.Combine(Application.streamingAssetsPath, "Mods/BloodMagic/Saves"));
                 File.WriteAllText(Path.Combine(Application.streamingAssetsPath, saveFileName), JsonConvert.SerializeObject(saveData, Formatting.Indented));
             }
         }
