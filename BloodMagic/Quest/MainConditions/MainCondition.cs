@@ -37,6 +37,8 @@ namespace BloodMagic.Quest.Conditions
             int conditionPool = random.Next(0, (level*2)+1);
             int maxConditions = random.Next(0, level);
 
+            totalCost = p_level;
+
             List<Type> existing = new List<Type>();
 
             while (conditionPool > 0 && existing.Count < maxConditions)

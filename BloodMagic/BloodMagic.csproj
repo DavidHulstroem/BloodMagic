@@ -93,6 +93,8 @@
     <Compile Include="Quest\Conditions\AtOneHP.cs" />
     <Compile Include="Quest\Conditions\InAir.cs" />
     <Compile Include="Quest\MainConditions\Drain.cs" />
+    <Compile Include="Quest\MainConditions\Dismember.cs" />
+    <Compile Include="Quest\MainConditions\Parry.cs" />
     <Compile Include="Quest\MainConditions\MainCondition.cs" />
     <Compile Include="Quest\MainConditions\Kill.cs" />
     <Compile Include="Quest\Quest.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="Spell\BloodDagger.cs" />
     <Compile Include="Spell\BloodBullet.cs" />
     <Compile Include="Spell\BloodSpell.cs" />
+    <Compile Include="Spell\CreatureDrainComponent.cs" />
     <Compile Include="UI\AbilityInfo.cs" />
     <Compile Include="UI\BookUIHandler.cs" />
     <Compile Include="UI\QuestUIComponets.cs" />

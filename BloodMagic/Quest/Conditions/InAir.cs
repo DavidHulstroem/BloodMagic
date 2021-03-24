@@ -15,7 +15,7 @@ namespace BloodMagic.Quest.Conditions
         {
             base.SetupCondition(p_seed, p_level);
 
-            conditionText = "While in the air";
+            conditionText = "while in the air";
 
             return this;
         }
@@ -24,6 +24,16 @@ namespace BloodMagic.Quest.Conditions
         {
             if (Player.currentCreature.locomotion.isGrounded)
                 return false;
+
+            return true;
+        }
+
+        public override bool CanBeUsedWithType(Type mainType)
+        {
+            if (mainType == typeof(Drain))
+            {
+                return false;
+            }
 
             return true;
         }

@@ -24,7 +24,7 @@ namespace BloodMagic.Quest.Conditions
 
         public override bool CanBeUsedWithType(Type mainType)
         {
-            if (mainType == typeof(Kill))
+            if (mainType == typeof(Kill) || mainType == typeof(Dismember))
                 return true;
 
             return false;
