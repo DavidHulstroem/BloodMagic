@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using ThunderRoad;
+using BloodMagic.UI;
 
 namespace BloodMagic.Spell.Abilities
 {
@@ -12,6 +13,9 @@ namespace BloodMagic.Spell.Abilities
     {
         public static bool HasEnoughHealth(float health)
         {
+            if (!BookUIHandler.saveData.useHealth)
+                return true;
+
             if (Player.currentCreature.currentHealth > health)
             {
                 return true;
@@ -21,6 +25,9 @@ namespace BloodMagic.Spell.Abilities
 
         public static bool SpendHealth(float health)
         {
+            if (!BookUIHandler.saveData.useHealth)
+                return true;
+
             if (Player.currentCreature.currentHealth > health)
             {
                 Player.currentCreature.currentHealth -= health;
@@ -28,7 +35,7 @@ namespace BloodMagic.Spell.Abilities
                 return true;
             }
 
-            PostProcessManager.DoTimedEffect(new Color(155,18,18), PostProcessManager.TimedEffect.Flash, 0.5f);
+            PostProcessManager.DoTimedEffect(new Color(1,0.1f,0.1f), PostProcessManager.TimedEffect.Flash, 0.5f);
 
            
 
