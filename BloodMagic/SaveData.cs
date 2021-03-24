@@ -12,7 +12,7 @@ namespace BloodMagic
         public int lightPoints { get; set; }
         public int darkPoints { get; set; }
 
-
+        public bool useHealth { get; set; } = true;
         public float xp { get; set; }
         public int level { get; set; }
 
@@ -20,13 +20,13 @@ namespace BloodMagic
 
         public float gesturePrescision { get; set; } = 0.7f;
         public float drainDistance { get; set; } = 5;
-        public float drainPower { get; set; } = 2f;
+        public float drainPower { get; set; } = 5f;
 
 
         public float wavePushStrenght { get; set; } = 20f;
 
 
-        public float xpMultiplier { get; set; } = 1;
+        public float xpMultiplier { get; set; } = 1.5f;
 
         public QuestInfo quest1 { get; set; }
         public QuestInfo quest2 { get; set; }
