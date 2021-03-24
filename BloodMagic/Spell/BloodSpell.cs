@@ -19,9 +19,6 @@ namespace BloodMagic.Spell
         private Vector3 leftVel;
         private Vector3 rightVel;
 
-
-        public VisualEffect bloodDrainEffect;
-
         public override void Init()
         {
             EventManager.onPossess += EventManager_onPossess;
@@ -34,12 +31,9 @@ namespace BloodMagic.Spell
             if (creature.container.contents.Where(c => c.itemData.id == "SpellBloodItem").Count() <= 0)
                 creature.container.AddContent(Catalog.GetData<ItemData>("SpellBloodItem"));
 
-            if (!bloodDrainEffect)
-            {
-                bloodDrainEffect = Catalog.GetData<EffectData>("BloodDrain").Spawn(Vector3.zero, Quaternion.identity, null, null, false).effects[0].GetComponent<VisualEffect>();
-            }
-
             creature.OnDamageEvent += Creature_OnDamageEvent;
+
+            BloodDrain.DrainHealth(0, this, null);
         }
 
         public static float lastDamageTime;
@@ -59,8 +53,6 @@ namespace BloodMagic.Spell
             {
                 BloodDaggerAbility.TryToActivate(this, velocity, BookUIHandler.saveData);
             }
-
-            
         }
 
         public override void Fire(bool active)
@@ -72,19 +64,16 @@ namespace BloodMagic.Spell
 
         bool swordSpawned;
         bool bowSpawned;
-        bool waveSpawned;
 
 
         public override void UpdateCaster()
         {
             base.UpdateCaster();
 
-            if (!bloodDrainEffect)
-            {
-                bloodDrainEffect = Catalog.GetData<EffectData>("BloodDrain").Spawn(Vector3.zero, Quaternion.identity, null, null, false).effects[0].GetComponent<VisualEffect>();
-            }
-
-            bloodDrainEffect.SetVector3("AttractiveTargetPosition", spellCaster.magic.position);
+            if (spellCaster.ragdollHand.side == Side.Left)
+                BloodDrain.drainEffectLeft.SetVector3("AttractiveTargetPosition", spellCaster.magic.position);
+            else
+                BloodDrain.drainEffectRight.SetVector3("AttractiveTargetPosition", spellCaster.magic.position);
 
 
             //Check for passive healing
@@ -134,10 +123,16 @@ namespace BloodMagic.Spell
                 //Check for draining
                 if (BloodDrain.TryToActivate(this, Vector3.zero, BookUIHandler.saveData))
                 {
-                    bloodDrainEffect.Play();
+                    if (spellCaster.ragdollHand.side == Side.Left)
+                        BloodDrain.drainEffectLeft.Play();
+                    else
+                        BloodDrain.drainEffectRight.Play();
                 } else
                 {
-                    bloodDrainEffect.Stop();
+                    if (spellCaster.ragdollHand.side == Side.Left)
+                        BloodDrain.drainEffectLeft.Stop();
+                    else
+                        BloodDrain.drainEffectRight.Stop();
                 }
 
                 if (!swordSpawned && SkillHandler.IsSkillUnlocked("Blood Sword"))
@@ -169,7 +164,10 @@ namespace BloodMagic.Spell
                 }
             } else
             {
-                bloodDrainEffect.Stop();
+                if (spellCaster.ragdollHand.side == Side.Left)
+                    BloodDrain.drainEffectLeft.Stop();
+                else
+                    BloodDrain.drainEffectRight.Stop();
             }
 
         }

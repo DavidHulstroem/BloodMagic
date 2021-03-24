@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ThunderRoad;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.VFX;
 
 namespace BloodMagic.Quest.Conditions
 {
