@@ -92,11 +92,11 @@ namespace BloodMagic.Spell
 
             if (SkillHandler.IsSkillUnlocked("Choke Drain"))
             {
-                Debug.Log("Choke unlocked");
+                //Debug.Log("Choke unlocked");
                 Handle grabbedHandle = spellCaster.ragdollHand.grabbedHandle;
                 if (grabbedHandle is HandleRagdoll)
                 {
-                    Debug.Log("Handle is handle ragdoll");
+                    //Debug.Log("Handle is handle ragdoll");
                     //Grabbed handle is a neck of a creature
                     if (PlayerControl.GetHand(spellCaster.ragdollHand.side).useAxis > 0)
                     {
@@ -264,18 +264,18 @@ namespace BloodMagic.Spell
             Item bow = handle.item;
             BowString bowString = bow.GetCustomReference("StringHandle").gameObject.GetComponent<BowString>();
 
-            Debug.Log("String grabbed");
+            //Debug.Log("String grabbed");
 
             if (bowString.nockedArrow == null && bowString.restedArrow == null && tryarrow)
             {
                 tryarrow = false;
-                Debug.Log("No nocked arrow!");
+                //Debug.Log("No nocked arrow!");
                 ragdollHand.UnGrab(false);
 
                 if (!SpellAbilityManager.HasEnoughHealth(2))
                     yield break;
 
-                Debug.Log("Yup enough health!");
+                //Debug.Log("Yup enough health!");
                 Catalog.GetData<ItemData>("BloodArrow").SpawnAsync(delegate (Item arrow)
                 {
                     Handle l_ArrowHandle = arrow.handles.First(h => h.interactableId == "ObjectHandleArrowBack");
@@ -378,8 +378,6 @@ namespace BloodMagic.Spell
 
         public static AimStruct AimAssist(Vector3 ownPosition, Vector3 ownDirection, float aimPrecision, float randomness)
         {
-            AimStruct aimStruct = new AimStruct();
-
             Creature toHit = null;
             float closest = -1;
             Vector3 dirS = Vector3.zero;

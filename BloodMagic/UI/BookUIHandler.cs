@@ -43,6 +43,16 @@ namespace BloodMagic.UI
         {
             base.Init(menuData, menu);
 
+            //Setup commands for reloading json =)
+
+            IngameDebugConsole.DebugLogConsole.AddCommand("reloadblood", "Reloads the blood save json", delegate
+            {
+                InitSaveJSON();
+                SetupAllQuests();
+                UpdateAllStats();
+            });
+
+
             Instance = this;
 
             //Get quest ui components
@@ -104,6 +114,17 @@ namespace BloodMagic.UI
             UpdateAllStats();
 
             MainCondition.OnAnyMainConditionProgressedEvent += OnAnyMainConditionCompleted;
+
+            EventManager.onCreatureKill += AddDrainComponentOnKill;
+        }
+
+        private void AddDrainComponentOnKill(Creature creature, Player player, CollisionInstance collisionInstance, EventTime eventTime)
+        {
+            if (!creature.isPlayer)
+            {
+                Spell.CreatureDrainComponent drain = creature.GetComponent<Spell.CreatureDrainComponent>() ? creature.gameObject.GetComponent<Spell.CreatureDrainComponent>() : creature.gameObject.AddComponent<Spell.CreatureDrainComponent>();
+                drain.health = creature.maxHealth;
+            }
         }
 
         private void OnAnyMainConditionCompleted(MainCondition main)

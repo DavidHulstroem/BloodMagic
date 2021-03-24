@@ -27,10 +27,19 @@ namespace BloodMagic.Spell.Abilities
                 if (hit.collider.GetComponentInParent<Creature>() && hit.distance < saveData.drainDistance)
                 {
                     Creature creature = hit.collider.GetComponentInParent<Creature>();
-                    if (creature != Player.currentCreature && creature.isKilled)
+                    if (!creature.isPlayer && creature.isKilled && Player.currentCreature.currentHealth < Player.currentCreature.maxHealth)
                     {
-                        DrainHealth(BookUIHandler.saveData.drainPower * Time.deltaTime, bloodSpell, creature);
-                        return true;
+                        CreatureDrainComponent dC = creature.GetComponent<CreatureDrainComponent>();
+                        if (dC && dC.health > 0)
+                        {
+                            dC.health -= BookUIHandler.saveData.drainPower * Time.deltaTime;
+
+                            DrainHealth(BookUIHandler.saveData.drainPower * Time.deltaTime, bloodSpell, creature);
+                            return true;
+                        } else
+                        {
+                            creature.Despawn();
+                        }
                     }
                 }
             }
@@ -42,8 +51,6 @@ namespace BloodMagic.Spell.Abilities
         {
             if (OnDrain != null)
                 OnDrain(health);
-
-
 
             if (!drainEffectLeft)
             {
@@ -60,13 +67,13 @@ namespace BloodMagic.Spell.Abilities
 
             if (creature != null)
             {
-                Player.currentCreature.Heal(health, Player.currentCreature);
-
-
+               
                 if (bloodSpell.spellCaster.ragdollHand.side == Side.Left)
                     drainEffectLeft.transform.position = creature.ragdoll.GetPart(RagdollPart.Type.Neck).transform.position;
                 else
                     drainEffectRight.transform.position = creature.ragdoll.GetPart(RagdollPart.Type.Neck).transform.position;
+
+                Player.currentCreature.Heal(health, Player.currentCreature);
             }
         }
     }
