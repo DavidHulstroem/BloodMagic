@@ -12,8 +12,6 @@ namespace BloodMagic.Quest.Conditions
     {
         public override int conditionCost => 2;
 
-        private float distance;
-
         public override Condition SetupCondition(int p_seed, int p_level)
         {
             base.SetupCondition(p_seed, p_level);
@@ -26,7 +24,7 @@ namespace BloodMagic.Quest.Conditions
 
         public override bool CanBeUsedWithType(Type mainType)
         {
-            if (mainType == typeof(Kill) || mainType == typeof(Drain))
+            if (mainType == typeof(Kill))
                 return true;
 
             return false;
